@@ -27,14 +27,13 @@ final class AuthorizationResponse {
             "code": "\(code)"
         ]
         
-        AF.request("https://unsplash.com/oauth/token", method: .post, parameters: parameters).response { Data in
-                switch Data.result {
+        AF.request("https://unsplash.com/oauth/token", method: .post, parameters: parameters).response { data in
+                switch data.result {
                     
-                case .success(let Data):
-                    guard let Data = Data,
-                          let result = try? JSONDecoder().decode(TokenModel.self, from: Data)
-                    else { return }
-                              completion(result)
+                case .success(let data):
+                    if let data = data,
+                       let result = try? JSONDecoder().decode(TokenModel.self, from: data) {
+                        completion(result) }
                     
                 case .failure(let error):
                         print(error.localizedDescription)

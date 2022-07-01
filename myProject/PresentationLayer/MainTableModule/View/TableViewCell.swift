@@ -7,107 +7,105 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 struct TableViewCellModel {
-    
-    let name: String
     let description: String
-    let image: UIImage
+    let image: String
+}
+
+protocol TableViewCellProtocol: AnyObject {
+    func didPressTableViewCellFavouritesTutton(isSelected: Bool, model: TableViewCellModel)
 }
 
 final class TableViewCell: UITableViewCell {
 
     //MARK: - Properties
     var model: TableViewCellModel?
-    
-    private lazy var nameLabel: UILabel = {
-        let nameLabel = UILabel()
-        nameLabel.numberOfLines = 0
-        nameLabel.font = .systemFont(ofSize: 20)
-        nameLabel.textColor = .black
-        return nameLabel
-    }()
+    weak var delegate: TableViewCellProtocol?
     
     private lazy var descriptionLable: UILabel = {
         let descriptionLable = UILabel()
         descriptionLable.numberOfLines = 0
-        descriptionLable.font = .systemFont(ofSize: 25)
+        descriptionLable.font = .systemFont(ofSize: 20)
+        descriptionLable.textAlignment = .center
         descriptionLable.textColor = .black
         return descriptionLable
     }()
     
     private lazy var pictureImage: UIImageView = {
         let pictureImage = UIImageView()
-        pictureImage.contentMode = .scaleAspectFit
+        pictureImage.contentMode = .scaleAspectFill
+        pictureImage.layer.masksToBounds = true
+        pictureImage.layer.cornerRadius = 30
         return pictureImage
     }()
     
-    private lazy var favoriteButton: UIButton = {
-        let favoriteButton = UIButton(type: .system)
-        favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        favoriteButton.tintColor = .red
-        accessoryView = favoriteButton
-        favoriteButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        return favoriteButton
+    private lazy var likeButton: UIButton = {
+        let likeButton = UIButton(type: .system)
+        likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        likeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        likeButton.tintColor = .gray
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        return likeButton
     }()
+    
+    private lazy var isButtonTapped: Bool = false
     
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        setupImageView()
-        setupLabel()
+        setupPictureImage()
         setupDescriptionLabel()
         setupFavoritesButton()
+        backgroundColor = .systemGreen
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-        
     }
     
     //MARK: - Methods
-    func updateContent() {
-        nameLabel.text = self.model?.name
-        descriptionLable.text = self.model?.description
-        pictureImage.image = self.model?.image
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        isButtonTapped = false
+        likeButton.tintColor = .gray
     }
     
-    private func setupImageView() {
+    func updateContent() {
+        descriptionLable.text = self.model?.description
+        self.pictureImage.kf.setImage(with: URL(string: model?.image  ?? ""), placeholder: nil)
+    }
+    
+    private func setupPictureImage() {
         addSubview(pictureImage)
         pictureImage.snp.makeConstraints { make in
             make.left.top.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(100)
-            make.width.equalTo(100)
-        }
-    }
-    
-    private func setupLabel() {
-        addSubview(nameLabel)
-        nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(pictureImage.snp.right).offset(10)
-            make.top.equalToSuperview().inset(10)
+            make.height.equalTo(150)
+            make.width.equalTo(160)
         }
     }
     
     private func setupDescriptionLabel() {
         addSubview(descriptionLable)
         descriptionLable.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(10)
             make.left.equalTo(pictureImage.snp.right).offset(10)
-            make.top.equalTo(nameLabel.snp.bottom).offset(20)
+            make.right.equalToSuperview().inset(65)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     
     private func setupFavoritesButton () {
-        addSubview(favoriteButton)
-        favoriteButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(30)
-            make.right.equalToSuperview().inset(30)
-        }
+        accessoryView = likeButton
     }
-    @objc
-    func tappedButton() {
-        print("tapped")
+    
+@objc func likeButtonTapped(_ sender: UIButton) {
+    isButtonTapped.toggle()
+    sender.tintColor = isButtonTapped ? .red : .gray
+    guard let model = model else { return }
+    delegate?.didPressTableViewCellFavouritesTutton(isSelected: isButtonTapped, model: model)
     }
 }

@@ -1,25 +1,29 @@
 //
-//  NetworkManager.swift
+//  NM.swift
 //  myProject
 //
-//  Created by Владимир Курганов on 25.06.2022.
+//  Created by Владимир Курганов on 27.06.2022.
 //
 
 import Foundation
-import UIKit
+import Alamofire
 
-final class UserNetwork {
+final class NetworkManager {
     
-    func fetchUsersData(_ completion: @escaping ([Users]) -> Void) {
+    func fetchData(_ completion: @escaping ([Result]) -> Void) {
         
-        let userImage = UIImage(imageLiteralResourceName: "user")
-        
-        let usersData = Users(name: "Владимир", description: "+79994445522",  imageUser: userImage)
-        let usersData2 = Users(name: "Владимир", description: "+79994445522",  imageUser: userImage)
-        let usersData3 = Users(name: "Владимир", description: "+79994445522",  imageUser: userImage)
-        
-        let result: [Users] = [usersData, usersData2, usersData3]
-        
-        completion(result)
+        AF.request("https://api.unsplash.com/search/photos?page=2&per_page=30&query=animals&client_id=D5gI1GG0bygjJBskI6m-ddOYXNn5wF0JfIAO5Y6uXks", method: .get).response { data in
+            
+            switch data.result {
+            case .success(let data):
+                if let data = data,
+                   let result = try? JSONDecoder().decode(Animals.self, from: data) {
+                        completion(result.results)
+                    }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

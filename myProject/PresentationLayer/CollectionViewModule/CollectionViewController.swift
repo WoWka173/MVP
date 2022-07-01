@@ -15,14 +15,13 @@ class CollectionViewController: UIViewController {
     
     private lazy var customCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 50
-        layout.itemSize = CGSize(width: view.frame.size.width/2.5, height: view.frame.size.height/3.5)
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CollectionViewCustomCell.self, forCellWithReuseIdentifier: "CollectionViewCustomCell")
-        return collectionView
+        layout.itemSize = CGSize(width: view.frame.size.width/1.5, height: view.frame.size.height/2)
+        let customCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        customCollectionView.register(CollectionViewCustomCell.self, forCellWithReuseIdentifier: "CollectionViewCustomCell")
+        return customCollectionView
     }()
     
     //MARK: - Init
@@ -40,8 +39,12 @@ class CollectionViewController: UIViewController {
         super.viewDidLoad()
         presenter.view = self
         presenter.viewDidLoad()
+        setupCollectionView()
+        customCollectionView.dataSource = self
         navigationItem.title = "Favorites"
-        view.backgroundColor = .systemGray6
+        view.layoutSubviews()
+        view.backgroundColor = .green
+        
     }
 }
 
@@ -50,8 +53,7 @@ extension CollectionViewController: CollectionViewProtocol {
     
     func setupCollectionView() {
         view.addSubview(customCollectionView)
-        customCollectionView.backgroundColor = .systemGray6
-        customCollectionView.dataSource = self
+        customCollectionView.backgroundColor = .green
         customCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(25)
             make.top.equalToSuperview().inset(1)
@@ -60,7 +62,10 @@ extension CollectionViewController: CollectionViewProtocol {
     }
     
     func reloadCollectionView() {
-        customCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.customCollectionView.reloadData()
+        }
+        
     }
 }
 

@@ -18,7 +18,7 @@ final class TabBarController: UITabBarController {
     //MARK: - Method
     private func setupTabBar() {
         
-        tabBar.backgroundColor = .systemGray5
+        tabBar.backgroundColor = .white
         
         let firstPresenter: TableViewPresenterProtocol = TableViewPresenter()
         let firstNavigationController = UINavigationController(rootViewController: TableViewController(presenter: firstPresenter))
@@ -29,7 +29,7 @@ final class TabBarController: UITabBarController {
         setViewControllers([firstNavigationController, secondNavigationController], animated: true)
         tabBar.isHidden = false
         
-        firstNavigationController.title = "My Image"
+        firstNavigationController.title = "Image"
         secondNavigationController.title = "Favorites"
         
         guard let items = tabBar.items else { return }

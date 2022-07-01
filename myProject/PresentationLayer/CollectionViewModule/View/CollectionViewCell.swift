@@ -7,11 +7,12 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 struct CollectionViewCustomCellModel {
     
-    let name: String
-    let image: UIImage
+    let description: String
+    let image: String
 }
 
 final class CollectionViewCustomCell: UICollectionViewCell {
@@ -19,7 +20,7 @@ final class CollectionViewCustomCell: UICollectionViewCell {
     //MARK: - Properties
     var model: CollectionViewCustomCellModel?
     
-    private lazy var nameLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.textAlignment = .center
         nameLabel.numberOfLines = 0
@@ -27,11 +28,12 @@ final class CollectionViewCustomCell: UICollectionViewCell {
         return nameLabel
     }()
     
-    private lazy var productImage: UIImageView = {
-       let productImage = UIImageView()
-        productImage.clipsToBounds = true
-        productImage.contentMode = .scaleAspectFit
-       return productImage
+    private lazy var pictureImage: UIImageView = {
+       let pictureImage = UIImageView()
+        pictureImage.layer.cornerRadius = 30
+        pictureImage.clipsToBounds = true
+        pictureImage.contentMode = .scaleAspectFill
+       return pictureImage
     }()
     
     //MARK: - Init
@@ -45,32 +47,32 @@ final class CollectionViewCustomCell: UICollectionViewCell {
     }
     
     //MARK - Methods
-    func setContent() {
-        nameLabel.text = self.model?.name
-        productImage.image = self.model?.image
+    func updateContent() {
+        descriptionLabel.text = self.model?.description
+        self.pictureImage.kf.setImage(with: URL(string: model?.image ?? ""), placeholder: nil)
+        
     }
     
     private func setupCell(){
         contentView.backgroundColor = .white
         clipsToBounds = false
         contentView.layer.shadowOffset = CGSize(width: 3, height: 3)
-        setupProductImage()
+        setupPictureImage()
         setupNameLabel()
+        backgroundColor = .systemGreen
     }
     
-    private func setupProductImage(){
-        addSubview(productImage)
-        productImage.snp.makeConstraints { make in
+    private func setupPictureImage(){
+        addSubview(pictureImage)
+        pictureImage.snp.makeConstraints { make in
             make.top.right.left.bottom.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(50)
         }
     }
     
     private func setupNameLabel() {
-        addSubview(nameLabel)
-        nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(productImage.snp.bottom).offset(25)
+        addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(pictureImage.snp.bottom).offset(25)
             make.right.left.equalToSuperview().inset(10)
         }
     }

@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19824AD0286C49770075B8DB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19824ACF286C49770075B8DB /* Kingfisher */; };
 		19A0D4832869C35E00190499 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 19A0D4822869C35E00190499 /* Alamofire */; };
 		19A0D4882869C61200190499 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D4872869C61200190499 /* AuthorizationViewController.swift */; };
 		19A0D48A2869C68300190499 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D4892869C68300190499 /* TokenModel.swift */; };
 		19A0D48C2869C6D000190499 /* AuthorizationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D48B2869C6D000190499 /* AuthorizationResponse.swift */; };
-		19A0D48E2869DE5F00190499 /* NM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D48D2869DE5F00190499 /* NM.swift */; };
+		19A0D48E2869DE5F00190499 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D48D2869DE5F00190499 /* NetworkManager.swift */; };
+		19C4B10D286DC40F00822621 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 19C4B10C286DC40F00822621 /* SQLite */; };
 		19F635AE286734E700CB230B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635AD286734E700CB230B /* AppDelegate.swift */; };
 		19F635B0286734E700CB230B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635AF286734E700CB230B /* SceneDelegate.swift */; };
 		19F635B2286734E700CB230B /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635B1286734E700CB230B /* TableViewController.swift */; };
@@ -20,7 +22,6 @@
 		19F635C628673F9700CB230B /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635C528673F9700CB230B /* TabBarController.swift */; };
 		19F635C9286742BD00CB230B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 19F635C8286742BD00CB230B /* SnapKit */; };
 		19F635CC2867436000CB230B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635CB2867436000CB230B /* Model.swift */; };
-		19F635CF286744D800CB230B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635CE286744D800CB230B /* NetworkManager.swift */; };
 		19F635D3286746D200CB230B /* TableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635D2286746D200CB230B /* TableViewPresenter.swift */; };
 		19F635D6286754FD00CB230B /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635D5286754FD00CB230B /* TableViewCell.swift */; };
 		19F635D82867713000CB230B /* CollectionViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635D72867713000CB230B /* CollectionViewPresenter.swift */; };
@@ -32,7 +33,7 @@
 		19A0D4872869C61200190499 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		19A0D4892869C68300190499 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		19A0D48B2869C6D000190499 /* AuthorizationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationResponse.swift; sourceTree = "<group>"; };
-		19A0D48D2869DE5F00190499 /* NM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NM.swift; sourceTree = "<group>"; };
+		19A0D48D2869DE5F00190499 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		19F635AA286734E700CB230B /* myProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19F635AD286734E700CB230B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19F635AF286734E700CB230B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		19F635BB286734E700CB230B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19F635C528673F9700CB230B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		19F635CB2867436000CB230B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		19F635CE286744D800CB230B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		19F635D2286746D200CB230B /* TableViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewPresenter.swift; sourceTree = "<group>"; };
 		19F635D5286754FD00CB230B /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		19F635D72867713000CB230B /* CollectionViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewPresenter.swift; sourceTree = "<group>"; };
@@ -55,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19C4B10D286DC40F00822621 /* SQLite in Frameworks */,
+				19824AD0286C49770075B8DB /* Kingfisher in Frameworks */,
 				19F635C9286742BD00CB230B /* SnapKit in Frameworks */,
 				19A0D4832869C35E00190499 /* Alamofire in Frameworks */,
 			);
@@ -125,8 +127,7 @@
 		19F635CD286744B500CB230B /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
-				19F635CE286744D800CB230B /* NetworkManager.swift */,
-				19A0D48D2869DE5F00190499 /* NM.swift */,
+				19A0D48D2869DE5F00190499 /* NetworkManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -195,6 +196,8 @@
 			packageProductDependencies = (
 				19F635C8286742BD00CB230B /* SnapKit */,
 				19A0D4822869C35E00190499 /* Alamofire */,
+				19824ACF286C49770075B8DB /* Kingfisher */,
+				19C4B10C286DC40F00822621 /* SQLite */,
 			);
 			productName = myProject;
 			productReference = 19F635AA286734E700CB230B /* myProject.app */;
@@ -227,6 +230,8 @@
 			packageReferences = (
 				19F635C7286742BD00CB230B /* XCRemoteSwiftPackageReference "SnapKit" */,
 				19A0D4812869C35E00190499 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				19824ACE286C49770075B8DB /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				19C4B10B286DC40F00822621 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
 			productRefGroup = 19F635AB286734E700CB230B /* Products */;
 			projectDirPath = "";
@@ -261,8 +266,7 @@
 				19A0D48C2869C6D000190499 /* AuthorizationResponse.swift in Sources */,
 				19F635D6286754FD00CB230B /* TableViewCell.swift in Sources */,
 				19F635DD286778F200CB230B /* CollectionViewController.swift in Sources */,
-				19F635CF286744D800CB230B /* NetworkManager.swift in Sources */,
-				19A0D48E2869DE5F00190499 /* NM.swift in Sources */,
+				19A0D48E2869DE5F00190499 /* NetworkManager.swift in Sources */,
 				19F635CC2867436000CB230B /* Model.swift in Sources */,
 				19F635B0286734E700CB230B /* SceneDelegate.swift in Sources */,
 				19F635D3286746D200CB230B /* TableViewPresenter.swift in Sources */,
@@ -478,12 +482,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		19824ACE286C49770075B8DB /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		19A0D4812869C35E00190499 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
+			};
+		};
+		19C4B10B286DC40F00822621 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
 			};
 		};
 		19F635C7286742BD00CB230B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -497,10 +517,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		19824ACF286C49770075B8DB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19824ACE286C49770075B8DB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		19A0D4822869C35E00190499 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19A0D4812869C35E00190499 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		19C4B10C286DC40F00822621 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19C4B10B286DC40F00822621 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
 		};
 		19F635C8286742BD00CB230B /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -16,6 +16,7 @@ final class TableViewController: UIViewController {
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        tableView.allowsSelection = false
         return tableView
     }()
     
@@ -34,11 +35,25 @@ final class TableViewController: UIViewController {
         setupNavigationBar()
         presenter.view = self
         presenter.viewDidLoad()
+        setupSearchBar()
+        setupTableView()
     }
     
     // MARK: - Methods
-        private func setupNavigationBar() {
-            navigationItem.title = "Gallery"
+    private func setupSearchBar() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.delegate = self
+        searchController.isActive = true
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = "Wild Life"
     }
 }
 
@@ -54,7 +69,9 @@ extension TableViewController: TableViewProtocol {
     }
 
     func reloadTableView() {
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -69,5 +86,16 @@ extension TableViewController: UITableViewDataSource {
         presenter.cellForRow(tableView, cellForRow: indexPath)
     }
 }
+
+extension TableViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.presenter.searchResult(searchText: searchText)
+        }
+    }
+}
+
 
 

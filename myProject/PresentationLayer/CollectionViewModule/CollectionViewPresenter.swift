@@ -26,17 +26,17 @@ final class CollectionPresenter: CollectionPresenterProtocol {
     
     //MARK: - Properties
     weak var view: CollectionViewProtocol?
-    private var service: UserNetwork
-    private var model: [Users] = []
+    private var service: Database?
+    private var model: [TableViewCellModel] = []
     
     //MARK: - unit
     init() {
-        self.service = UserNetwork()
+        self.service = Database()
     }
     
     //MARK: Methods
     func viewDidLoad() {
-        fetchData()
+        model = Database.shared.modelDB
         view?.setupCollectionView()
     }
     
@@ -47,15 +47,10 @@ final class CollectionPresenter: CollectionPresenterProtocol {
     func cellForItemAt(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCustomCell", for: indexPath) as? CollectionViewCustomCell
         guard let collectionView = cell else { return UICollectionViewCell() }
-        collectionView.model = CollectionViewCustomCellModel(name: model[indexPath.row].name, image: model[indexPath.row].imageUser)
-        collectionView.setContent()
+        
+        collectionView.model = CollectionViewCustomCellModel(description: model[indexPath.row].description, image: model[indexPath.row].image)
+        
+        collectionView.updateContent()
         return collectionView
-    }
-
-    private func fetchData() {
-        service.fetchUsersData { [weak self] usersdata in
-            guard let self = self else { return }
-            self.model = usersdata
-        }
     }
 }
