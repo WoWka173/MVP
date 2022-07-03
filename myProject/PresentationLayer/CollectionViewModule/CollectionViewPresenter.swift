@@ -8,36 +8,38 @@
 import Foundation
 import UIKit
 
-//MARK: Protocols
+//MARK: - Protocols
 protocol CollectionViewProtocol: AnyObject {
+    
     func setupCollectionView()
     func reloadCollectionView()
+    
 }
 
 protocol CollectionPresenterProtocol: AnyObject {
+    
     var view: CollectionViewProtocol? { get set }
     func viewDidLoad()
     func numberOfRowInSection() -> Int
     func cellForItemAt(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    func convertModel()
+    
 }
 
 //MARK: - Presenter
-final class CollectionPresenter: CollectionPresenterProtocol {
+ final class CollectionViewPresenter: CollectionPresenterProtocol {
     
     //MARK: - Properties
     weak var view: CollectionViewProtocol?
-    private var service: Database?
-    private var model: [TableViewCellModel] = []
+    private var model: [CollectionViewCustomCellModel] = []
     
-    //MARK: - unit
-    init() {
-        self.service = Database()
-    }
-    
-    //MARK: Methods
+    //MARK: - Methods
+     
     func viewDidLoad() {
-        model = Database.shared.modelDB
+        
+        createTableDatabase()
         view?.setupCollectionView()
+        
     }
     
     func numberOfRowInSection() -> Int {
@@ -45,12 +47,60 @@ final class CollectionPresenter: CollectionPresenterProtocol {
     }
     
     func cellForItemAt(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCustomCell", for: indexPath) as? CollectionViewCustomCell
-        guard let collectionView = cell else { return UICollectionViewCell() }
+        guard let cell = cell else { return UICollectionViewCell() }
+        cell.delegate = self
+        cell.model = CollectionViewCustomCellModel(id: model[indexPath.row].id,
+                                                   description: model[indexPath.row].description,
+                                                   image: model[indexPath.row].image)
         
-        collectionView.model = CollectionViewCustomCellModel(description: model[indexPath.row].description, image: model[indexPath.row].image)
+        cell.updateContent()
+        return cell
         
-        collectionView.updateContent()
-        return collectionView
+    }
+    
+    func convertModel() {
+        
+        convertModel { [weak self] data in
+            self?.model = data
+            self?.view?.reloadCollectionView()
+            
+        }
+    }
+    
+    private func createTableDatabase() {
+        
+        let database = SQLDatabase.shared
+        database.createTableDatabase()
+        
+    }
+    
+    private func convertModel(completion: @escaping ([CollectionViewCustomCellModel]) -> Void) {
+        
+        let dataModel: [DatabaseModel] = SQLCommands.presentRows() ?? []
+        var cellModel: [CollectionViewCustomCellModel] = []
+        
+        dataModel.forEach {
+            let string = String(decoding: $0.image, as: UTF8.self)
+            cellModel.append(CollectionViewCustomCellModel(id: $0.id,
+                                                           description: $0.description,
+                                                           image: string))
+        }
+        completion(cellModel)
+    }
+}
+
+//MARK: - Extensions
+extension CollectionViewPresenter: CollectionViewCustomCellProtocol {
+    
+    func didPressDeleteButton(model: CollectionViewCustomCellModel) {
+        
+        SQLCommands.deleteRow(dataId: model.id)
+        self.convertModel { [weak self] data in
+            self?.model = data
+            self?.view?.reloadCollectionView()
+            
+        }
     }
 }

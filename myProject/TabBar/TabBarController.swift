@@ -11,32 +11,37 @@ final class TabBarController: UITabBarController {
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupTabBar()
+        
     }
     
     //MARK: - Method
     private func setupTabBar() {
         
-        tabBar.backgroundColor = .white
+        let TableViewPresenter: TableViewPresenterProtocol = TableViewPresenter()
+        let TableViewController = UINavigationController(rootViewController: TableViewController(presenter: TableViewPresenter))
+        let CollectionViewPresenter: CollectionPresenterProtocol = CollectionViewPresenter()
+        let CollectionViewController = UINavigationController(rootViewController: CollectionViewController(presenter: CollectionViewPresenter))
         
-        let firstPresenter: TableViewPresenterProtocol = TableViewPresenter()
-        let firstNavigationController = UINavigationController(rootViewController: TableViewController(presenter: firstPresenter))
-        let secondPresenter: CollectionPresenterProtocol = CollectionPresenter()
-        let secondNavigationController = UINavigationController(rootViewController: CollectionViewController(presenter: secondPresenter))
-        
-        viewControllers = [firstNavigationController, secondNavigationController]
-        setViewControllers([firstNavigationController, secondNavigationController], animated: true)
+        viewControllers = [TableViewController, CollectionViewController]
+        setViewControllers([TableViewController, CollectionViewController], animated: true)
         tabBar.isHidden = false
         
-        firstNavigationController.title = "Image"
-        secondNavigationController.title = "Favorites"
+        TableViewController.title = "Image"
+        CollectionViewController.title = "Likes"
         
         guard let items = tabBar.items else { return }
-        let images = ["photo", "star.lefthalf.fill"]
+        let images = ["photo", "heart.fill"]
         
-        for x in 0..<items.count {
-            items[x].image = UIImage(systemName: images[x])
+        for i in 0..<items.count {
+                    items[i].image = UIImage(systemName: images[i])
+        
         }
     }
 }
+
+
+
+

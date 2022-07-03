@@ -13,6 +13,9 @@
 		19A0D48A2869C68300190499 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D4892869C68300190499 /* TokenModel.swift */; };
 		19A0D48C2869C6D000190499 /* AuthorizationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D48B2869C6D000190499 /* AuthorizationResponse.swift */; };
 		19A0D48E2869DE5F00190499 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A0D48D2869DE5F00190499 /* NetworkManager.swift */; };
+		19B23F4B286EF32400C0DA50 /* DatabaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B23F4A286EF32400C0DA50 /* DatabaseModel.swift */; };
+		19B23F4D286EF4BC00C0DA50 /* SQLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B23F4C286EF4BC00C0DA50 /* SQLDatabase.swift */; };
+		19B23F4F286EF53600C0DA50 /* SQLCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B23F4E286EF53600C0DA50 /* SQLCommands.swift */; };
 		19C4B10D286DC40F00822621 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 19C4B10C286DC40F00822621 /* SQLite */; };
 		19F635AE286734E700CB230B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635AD286734E700CB230B /* AppDelegate.swift */; };
 		19F635B0286734E700CB230B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F635AF286734E700CB230B /* SceneDelegate.swift */; };
@@ -34,6 +37,9 @@
 		19A0D4892869C68300190499 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		19A0D48B2869C6D000190499 /* AuthorizationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationResponse.swift; sourceTree = "<group>"; };
 		19A0D48D2869DE5F00190499 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		19B23F4A286EF32400C0DA50 /* DatabaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseModel.swift; sourceTree = "<group>"; };
+		19B23F4C286EF4BC00C0DA50 /* SQLDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLDatabase.swift; sourceTree = "<group>"; };
+		19B23F4E286EF53600C0DA50 /* SQLCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLCommands.swift; sourceTree = "<group>"; };
 		19F635AA286734E700CB230B /* myProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19F635AD286734E700CB230B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19F635AF286734E700CB230B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		195C227628718F0C00C161F4 /* DatabaseModule */ = {
+			isa = PBXGroup;
+			children = (
+				19B23F4C286EF4BC00C0DA50 /* SQLDatabase.swift */,
+				19B23F4E286EF53600C0DA50 /* SQLCommands.swift */,
+			);
+			path = DatabaseModule;
+			sourceTree = "<group>";
+		};
 		19F635A1286734E700CB230B = {
 			isa = PBXGroup;
 			children = (
@@ -84,8 +99,9 @@
 		19F635AC286734E700CB230B /* myProject */ = {
 			isa = PBXGroup;
 			children = (
-				19F635CD286744B500CB230B /* NetworkManager */,
-				19F635CA2867434F00CB230B /* Model */,
+				195C227628718F0C00C161F4 /* DatabaseModule */,
+				19F635CD286744B500CB230B /* NetworkModule */,
+				19F635CA2867434F00CB230B /* Models */,
 				19F635C12867370900CB230B /* PresentationLayer */,
 				19F635C428673F3F00CB230B /* TabBar */,
 				19F635AD286734E700CB230B /* AppDelegate.swift */,
@@ -115,21 +131,22 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		19F635CA2867434F00CB230B /* Model */ = {
+		19F635CA2867434F00CB230B /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				19F635CB2867436000CB230B /* Model.swift */,
+				19B23F4A286EF32400C0DA50 /* DatabaseModel.swift */,
 				19A0D4892869C68300190499 /* TokenModel.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		19F635CD286744B500CB230B /* NetworkManager */ = {
+		19F635CD286744B500CB230B /* NetworkModule */ = {
 			isa = PBXGroup;
 			children = (
 				19A0D48D2869DE5F00190499 /* NetworkManager.swift */,
 			);
-			path = NetworkManager;
+			path = NetworkModule;
 			sourceTree = "<group>";
 		};
 		19F635D02867465700CB230B /* MainTableModule */ = {
@@ -259,12 +276,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19B23F4B286EF32400C0DA50 /* DatabaseModel.swift in Sources */,
+				19B23F4D286EF4BC00C0DA50 /* SQLDatabase.swift in Sources */,
 				19A0D4882869C61200190499 /* AuthorizationViewController.swift in Sources */,
 				19F635B2286734E700CB230B /* TableViewController.swift in Sources */,
 				19F635AE286734E700CB230B /* AppDelegate.swift in Sources */,
 				19F635D82867713000CB230B /* CollectionViewPresenter.swift in Sources */,
 				19A0D48C2869C6D000190499 /* AuthorizationResponse.swift in Sources */,
 				19F635D6286754FD00CB230B /* TableViewCell.swift in Sources */,
+				19B23F4F286EF53600C0DA50 /* SQLCommands.swift in Sources */,
 				19F635DD286778F200CB230B /* CollectionViewController.swift in Sources */,
 				19A0D48E2869DE5F00190499 /* NetworkManager.swift in Sources */,
 				19F635CC2867436000CB230B /* Model.swift in Sources */,

@@ -8,42 +8,56 @@
 import UIKit
 import SnapKit
 
-class CollectionViewController: UIViewController {
+final class CollectionViewController: UIViewController {
 
     //MARK: - Properties
     private var presenter: CollectionPresenterProtocol
     
     private lazy var customCollectionView: UICollectionView = {
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 50
-        layout.itemSize = CGSize(width: view.frame.size.width/1.5, height: view.frame.size.height/2)
+        layout.minimumLineSpacing = 70
+        layout.itemSize = CGSize(width: view.frame.size.width/1.3, height: view.frame.size.height/1.8)
         let customCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        customCollectionView.register(CollectionViewCustomCell.self, forCellWithReuseIdentifier: "CollectionViewCustomCell")
+        customCollectionView.register(CollectionViewCustomCell.self, forCellWithReuseIdentifier: CollectionViewCustomCell.indetifire)
         return customCollectionView
+        
     }()
+    
     
     //MARK: - Init
     init(presenter: CollectionPresenterProtocol) {
+        
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Lifecycle
+    //MARK: - Life Cycle
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         presenter.view = self
         presenter.viewDidLoad()
         setupCollectionView()
         customCollectionView.dataSource = self
-        navigationItem.title = "Favorites"
+        navigationItem.title = "Likes"
         view.layoutSubviews()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        reloadCollectionView()
+        presenter.convertModel()
         
     }
 }
@@ -52,20 +66,24 @@ class CollectionViewController: UIViewController {
 extension CollectionViewController: CollectionViewProtocol {
     
     func setupCollectionView() {
+        
         view.addSubview(customCollectionView)
-        customCollectionView.backgroundColor = .green
+        customCollectionView.backgroundColor = .white
         customCollectionView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(25)
-            make.top.equalToSuperview().inset(1)
-            make.bottom.equalToSuperview().inset(20)
+            make.left.equalToSuperview().inset(50)
+            make.right.equalToSuperview().inset(50)
+            make.bottom.equalToSuperview().inset(100)
+            make.top.equalToSuperview()
+            
         }
     }
     
     func reloadCollectionView() {
+        
         DispatchQueue.main.async {
             self.customCollectionView.reloadData()
+            
         }
-        
     }
 }
 
@@ -79,5 +97,6 @@ extension CollectionViewController: UICollectionViewDataSource {
         presenter.cellForItemAt(collectionView, cellForItemAt: indexPath)
     }
 }
+
 
 

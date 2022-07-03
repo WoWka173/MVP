@@ -10,106 +10,144 @@ import UIKit
 
 //MARK: - Protocols
 protocol TableViewProtocol: AnyObject {
+    
     func setupTableView()
     func reloadTableView()
+    
 }
 
 protocol TableViewPresenterProtocol: AnyObject {
+    
     var view: TableViewProtocol? { get set }
-    var filterData: [Result] { get set }
+    var filterData: [Results] { get set }
     func viewDidLoad()
     func numberOfRowInSection() -> Int
     func cellForRow(_ tableView: UITableView, cellForRow indexPath: IndexPath) -> UITableViewCell
     func searchResult(searchText: String)
+    
 }
 
 //MARK: - Presenter
 final class TableViewPresenter: TableViewPresenterProtocol {
     
     weak var view: TableViewProtocol?
-    var filterData: [Result] = []
+    var filterData: [Results] = []
+    private var model: [Results] = []
     private var service: NetworkManager?
-    private var model: [Result] = []
     private var isSearching = false
     
     //MARK: - Init
     init() {
+        
         self.service = NetworkManager()
     }
     
     //MARK: - Methods
     func viewDidLoad() {
+        
         fetchData()
         view?.setupTableView()
+       
     }
     
     func numberOfRowInSection() -> Int {
+        
         if isSearching { return filterData.count }
         else { return model.count }
     }
     
     func cellForRow(_ tableView: UITableView, cellForRow indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell
         guard let tableViewCell = cell else { return  UITableViewCell() }
         tableViewCell.delegate = self
+        
         if isSearching {
             
-        tableViewCell.model = TableViewCellModel(description: filterData[indexPath.row].description ?? "None description",
-                                                 image: filterData[indexPath.row].urls?.regular ?? "")
+            tableViewCell.model = TableViewCellModel(id: filterData[indexPath.row].id ?? "",
+                                                     description: filterData[indexPath.row].description ?? "None description",
+                                                     image: filterData[indexPath.row].urls?.regular ?? "")
         } else {
             
-            tableViewCell.model = TableViewCellModel(description: model[indexPath.row].description ?? "None description",
+            tableViewCell.model = TableViewCellModel(id: model[indexPath.row].id ?? "",
+                                                     description: model[indexPath.row].description ?? "None description",
                                                      image: model[indexPath.row].urls?.regular ?? "")
         }
-       
+        
+        if let model = SQLCommands.presentRows() {
+            
+            model.forEach {
+                
+                if tableViewCell.model?.id == $0.id {
+                    tableViewCell.isSelectedButton = true
+                    tableViewCell.likeButton.tintColor = .red
+                    
+                }
+            }
+        }
+        
         tableViewCell.updateContent()
         return tableViewCell
     }
     
     func searchResult(searchText: String) {
-        self.filterData.removeAll()
-        guard searchText.isEmpty || searchText != " " else {
-            print("search is empty")
-            return
-        }
         
-        for item in model {
+        self.filterData.removeAll()
+        guard searchText.isEmpty || searchText != " " else { return }
+        
+        model.forEach {
+            
             let text = searchText.lowercased()
-            let isArrayCountainDescription = item.description?.lowercased().range(of: text)
+            let isArrayCountainDescription = $0.description?.lowercased().range(of: text)
             if isArrayCountainDescription != nil {
-                print("Search complete")
-                self.filterData.append(item)
+                self.filterData.append($0)
+                
             }
         }
-        print(filterData)
         
         if searchText == "" {
+            
             isSearching = false
             view?.reloadTableView()
+            
         } else {
+            
             isSearching = true
             view?.reloadTableView()
+            
         }
     }
     
     private func fetchData() {
-        service?.fetchData ({ [weak self] results in
+        
+        service?.fetchData { [weak self] result in
             guard let self = self else { return }
-            self.model = results
+            self.model = result
             self.view?.reloadTableView()
-        })
+            
+        }
     }
 }
 
+//MARK: - Extensions
 extension TableViewPresenter: TableViewCellProtocol {
     
-    func didPressTableViewCellFavouritesTutton(isSelected: Bool, model: TableViewCellModel) {
-        if isSelected == true {
-            print("selected - TRUE")
-            Database.shared.appendElements(likeModel: model)
-            print (Database.shared.modelDB)
+    func didPressTableViewCellLikeButton(isSelected: Bool, model: TableViewCellModel) {
+        if isSelected {
+            let database = SQLCommands.presentRows()
+            guard let  database = database else { return }
+            database.forEach {
+                if model.id == $0.id { return }
+                
+            }
+        
+            let data = Data(model.image.utf8)
+            SQLCommands.insertRow(DatabaseModel(id: model.id,
+                                                description: model.description,
+                                                image:data ))
+            
         } else {
-            print("selected - FALSE")
+            SQLCommands.deleteRow(dataId: model.id)
         }
     }
 }
